@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { Form, Input, Button, message } from 'antd';
-import { User } from '../../types';
+import { useEffect } from "react";
+import { Form, Input, Button, message } from "antd";
+import { User } from "../../types";
 
 interface UserFormProps {
   isEditing?: boolean;
@@ -9,7 +9,13 @@ interface UserFormProps {
   onUpdateUser?: (user: User) => void;
   onCancel: () => void;
 }
-const UserForm = ({ isEditing, selectedUser, onAddUser, onUpdateUser, onCancel }: UserFormProps) => {
+const UserForm = ({
+  isEditing,
+  selectedUser,
+  onAddUser,
+  onUpdateUser,
+  onCancel,
+}: UserFormProps) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -21,10 +27,10 @@ const UserForm = ({ isEditing, selectedUser, onAddUser, onUpdateUser, onCancel }
   const onFinish = (values: any) => {
     if (isEditing) {
       onUpdateUser?.({ ...selectedUser, ...values });
-      message.success('用户信息更新成功!');
+      message.success("用户信息更新成功!");
     } else {
       onAddUser?.(values);
-      message.success('用户注册成功!');
+      message.success("用户注册成功!");
     }
     form.resetFields();
   };
@@ -40,7 +46,7 @@ const UserForm = ({ isEditing, selectedUser, onAddUser, onUpdateUser, onCancel }
       <Form.Item
         label="用户名"
         name="name"
-        rules={[{ required: true, message: '请输入您的用户名!' }]}
+        rules={[{ required: true, message: "请输入您的用户名!" }]}
       >
         <Input />
       </Form.Item>
@@ -49,8 +55,8 @@ const UserForm = ({ isEditing, selectedUser, onAddUser, onUpdateUser, onCancel }
         label="邮箱"
         name="email"
         rules={[
-          { required: true, message: '请输入您的邮箱地址!' },
-          { type: 'email', message: '请输入有效的邮箱地址!' }
+          { required: true, message: "请输入您的邮箱地址!" },
+          { type: "email", message: "请输入有效的邮箱地址!" },
         ]}
       >
         <Input />
@@ -59,22 +65,24 @@ const UserForm = ({ isEditing, selectedUser, onAddUser, onUpdateUser, onCancel }
       <Form.Item
         label="年龄"
         name="age"
-        rules={[{ required: true, message: '请输入您的年龄!' }]}
+        rules={[{ required: true, message: "请输入您的年龄!" }]}
       >
         <Input type="number" />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          {isEditing ? '保存' : '注册'}
+          {isEditing ? "保存" : "注册"}
         </Button>
         {isEditing ? (
           <Button style={{ marginLeft: 8 }} onClick={onCancel}>
             取消
           </Button>
-        ) : <Button style={{ marginLeft: 8 }} onClick={() => form.resetFields()}>
-          重置
-        </Button>}
+        ) : (
+          <Button style={{ marginLeft: 8 }} onClick={() => form.resetFields()}>
+            重置
+          </Button>
+        )}
       </Form.Item>
     </Form>
   );
