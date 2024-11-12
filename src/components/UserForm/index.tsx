@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, InputNumber, Button, message } from "antd";
 import { User } from "../../types";
 
 interface UserFormProps {
@@ -9,6 +9,12 @@ interface UserFormProps {
   onUpdateUser?: (user: User) => void;
   onCancel: () => void;
 }
+
+const formItemLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 24 },
+};
+
 const UserForm = ({
   isEditing,
   selectedUser,
@@ -35,12 +41,35 @@ const UserForm = ({
     form.resetFields();
   };
 
+  const validatePassword = (rule: any, value: string) => {
+    if (!value) {
+      return Promise.reject('请输入密码!');
+    }
+    if (value.length < 8) {
+      return Promise.reject('密码至少8位!');
+    }
+    if (!/[a-z]/.test(value)) {
+      return Promise.reject('密码中必须包含小写字母!');
+    }
+    if (!/[A-Z]/.test(value)) {
+      return Promise.reject('密码中必须包含大写字母!');
+    }
+    if (!/\d/.test(value)) {
+      return Promise.reject('密码中必须包含数字!');
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+      return Promise.reject('密码中必须包含特殊字符!');
+    }
+    return Promise.resolve();
+  };
+
   return (
     <Form
       form={form}
       name="basic"
-      layout="vertical"
       autoComplete="off"
+      {...formItemLayout}
+      style={{ maxWidth: 400 }}
       onFinish={onFinish}
     >
       <Form.Item
@@ -62,12 +91,24 @@ const UserForm = ({
         <Input />
       </Form.Item>
 
+      {isEditing ? null : (
+        <Form.Item
+          label="密码"
+          name="password"
+          rules={[
+            { required: true, validator: validatePassword },
+          ]}
+        >
+          <Input type="password" />
+        </Form.Item>
+      )}
+
       <Form.Item
         label="年龄"
         name="age"
         rules={[{ required: true, message: "请输入您的年龄!" }]}
       >
-        <Input type="number" />
+        <InputNumber min={1} max={120} step={1} />
       </Form.Item>
 
       <Form.Item>
