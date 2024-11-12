@@ -1,4 +1,4 @@
-import React, { Table, Button } from "antd";
+import { Table, Button } from "antd";
 import { User } from "../../types";
 
 interface UserListProps {
@@ -7,7 +7,7 @@ interface UserListProps {
   onDelete: (id: number) => void;
 }
 
-const UserList: React.FC<UserListProps> = ({ users, onEdit, onDelete }) => {
+const UserList = ({ users, onEdit, onDelete }: UserListProps) => {
   const columns = [
     {
       title: "用户名",
